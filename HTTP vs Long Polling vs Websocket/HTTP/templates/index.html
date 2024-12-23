@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat</title>
+</head>
+<body>
+    <div>
+        {% for data in messages %}
+            <p style="font-size: 25px;">{{ data }}</p>
+        {% endfor %}
+    </div>
+    <form method="POST" action="{{ url_for('home') }}" class="needs-validation">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group mb-3">
+            {{ form.message.label }}
+            {{ form.message(class="form-control") }}
+        
+
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+    </form>
+</body>
+</html>

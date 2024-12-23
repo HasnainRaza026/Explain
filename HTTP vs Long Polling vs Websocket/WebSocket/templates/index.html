@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
+</head>
+<body>
+    <div id="messages" style="margin-bottom: 20px;">
+    </div>
+    <form id="messageForm" class="needs-validation">
+        <input id="messageInput" class="form-control" type="text" placeholder="Enter your message" required>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+
+    <script>
+        const socket = io();
+
+        function addMessage(message) {
+            const messagesDiv = document.getElementById('messages');
+            const messageElement = document.createElement('p');
+            messageElement.style.fontSize = '25px';
+            messageElement.textContent = message;
+            messagesDiv.appendChild(messageElement);
+        }
+
+        socket.on('message', function(data) {
+            addMessage(data);
+        });
+
+        document.getElementById('messageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+            if (message) {
+                socket.send(message); 
+                messageInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
